@@ -1,0 +1,9 @@
+.rcb-chat-footer-container {
+	display: none;
+}
+.rcb-chat-tooltip {
+	display: none;
+}
+.rcb-chat-avatar, .rcb-bot-avatar {
+	display: none;
+}
