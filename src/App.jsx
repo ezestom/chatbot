@@ -43,17 +43,17 @@ function App() {
 				let responseMessage = "";
 				switch (params.userInput) {
 					case "Funcionalidades":
-						link = "/#features";
+						link = "https://cacta.eco/#features";
 						responseMessage =
 							"¡Genial! Aquí puedes conocer todas nuestras funcionalidades.";
 						break;
 					case "Sobre Cacta":
-						link = "/#us";
+						link = "https://cacta.eco/#us";
 						responseMessage =
 							"Descubre más sobre nuestra misión y visión en Cacta.";
 						break;
 					case "Blog":
-						link = "/blog";
+						link = "https://cacta.eco/blog";
 						responseMessage =
 							"Accede a nuestro blog para leer las últimas novedades.";
 						break;
@@ -62,7 +62,7 @@ function App() {
 						responseMessage = "Conéctate con nosotros en LinkedIn.";
 						break;
 					case "Enviar mi consulta":
-						link = "/#contact";
+						link = "https://cacta.eco/#contact";
 						responseMessage =
 							"Estamos aquí para ayudarte, completa el formulario de consulta.";
 						break;
