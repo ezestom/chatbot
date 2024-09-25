@@ -15,7 +15,7 @@ function App() {
 		start: {
 			message:
 				"Hola, Soy el Bot 🤖 de Cacta 👋! Bienvenido/a a nuestra web. ¿En qué puedo ayudarte hoy?",
-			transition: { duration: 1000 },
+			transition: { duration: 2000 },
 			path: "show_options",
 		},
 		show_options: {
@@ -25,7 +25,8 @@ function App() {
 			path: "process_options",
 		},
 		prompt_again: {
-			message: "¿En qué más puedo ayudarte?",
+			message:
+				"¿En qué más puedo ayudarte? Tengo las siguientes opciones:",
 			options: helpOptions,
 			path: "process_options",
 		},
@@ -92,6 +93,7 @@ function App() {
 				general: { embedded: false },
 				initiallyOpen: false,
 				chatHistory: { storageKey: "example_faq_bot" },
+				botBubble: { simStream: true },
 			}}
 			flow={flow}
 		/>
