@@ -1,100 +1,100 @@
 import ChatBot from "react-chatbotify";
-import { useState } from "react";
 import "./App.css";
 
 function App() {
-	const [form, setForm] = useState({});
-	const formStyle = {
-		marginTop: 10,
-		marginLeft: 20,
-		border: "1px solid #491d8d",
-		padding: 10,
-		borderRadius: 5,
-		maxWidth: 300,
-	};
+	const helpOptions = [
+		"Funcionalidades",
+		"Sobre Cacta",
+		"LinkedIn",
+		"Blog",
+		"Enviar mi consulta",
+		"Más información",
+	];
 
 	const flow = {
 		start: {
 			message:
-				"Hola! Puedo ayudarte si tienes alguna pregunta, ¿cómo te llamas?",
-			function: (params) => setForm({ ...form, name: params.userInput }),
-			path: "ask_age",
+				"Hola, Soy el Bot 🤖 de Cacta 👋! Bienvenido/a a nuestra web. ¿En qué puedo ayudarte hoy?",
+			transition: { duration: 1000 },
+			path: "show_options",
 		},
-		ask_age: {
-			message: (params) =>
-				`Hola ${params.userInput}! Tengo la siguienes opciones para ayudarte:`,
-			function: (params) => setForm({ ...form, age: params.userInput }),
-			path: async (params) => {
-				if (isNaN(Number(params.userInput))) {
-					await params.injectMessage("Age needs to be a number!");
-					return;
-				}
-				return "ask_pet";
-			},
-		},
-		ask_pet: {
-			message: "Do you own any pets?",
-			options: ["Yes", "No"],
-			chatDisabled: true,
-			function: (params) =>
-				setForm({ ...form, pet_ownership: params.userInput }),
-			path: "ask_choice",
-		},
-		ask_choice: {
+		show_options: {
 			message:
-				"Select at least 2 and at most 4 pets that you are comfortable to work with:",
-			checkboxes: {
-				items: ["Dog", "Cat", "Rabbit", "Hamster", "Bird"],
-				min: 2,
-				max: 4,
-			},
-			chatDisabled: true,
-			function: (params) =>
-				setForm({ ...form, pet_choices: params.userInput }),
-			path: "ask_work_days",
+				"Tengo las siguientes opciones para ayudarte a entender nuestro compromiso con la sustentabilidad y los recursos que ofrece nuestra App.",
+			options: helpOptions,
+			path: "process_options",
 		},
-		ask_work_days: {
-			message: "How many days can you work per week?",
-			function: (params) =>
-				setForm({ ...form, num_work_days: params.userInput }),
-			path: async (params) => {
-				if (isNaN(Number(params.userInput))) {
-					await params.injectMessage(
-						"Number of work day(s) need to be a number!"
-					);
-					return;
-				}
-				return "end";
-			},
+		prompt_again: {
+			message: "¿En qué más puedo ayudarte?",
+			options: helpOptions,
+			path: "process_options",
 		},
-		end: {
+		unknown_input: {
 			message:
-				"Thank you for your interest, we will get back to you shortly!",
-			component: (
-				<div style={formStyle}>
-					<p>Name: {form.name}</p>
-					<p>Age: {form.age}</p>
-					<p>Pet Ownership: {form.pet_ownership}</p>
-					<p>Pet Choices: {form.pet_choices}</p>
-					<p>Num Work Days: {form.num_work_days}</p>
-				</div>
-			),
-			options: ["New Application"],
+				"Perdón, no entendí tu consulta. Puedes elegir una opción de la lista o escribir algo más.",
+			options: helpOptions,
+			path: "process_options",
+		},
+		process_options: {
+			transition: { duration: 0 },
 			chatDisabled: true,
-			path: "start",
+			path: async (params) => {
+				let link = "";
+				let responseMessage = "";
+				switch (params.userInput) {
+					case "Funcionalidades":
+						link = "https://cacta.eco/#features";
+						responseMessage =
+							"¡Genial! Aquí puedes conocer todas nuestras funcionalidades.";
+						break;
+					case "Sobre Cacta":
+						link = "https://cacta.eco/#us";
+						responseMessage =
+							"Descubre más sobre nuestra misión y visión en Cacta.";
+						break;
+					case "Blog":
+						link = "https://cacta.eco/blog";
+						responseMessage =
+							"Accede a nuestro blog para leer las últimas novedades.";
+						break;
+					case "LinkedIn":
+						link = "https://www.linkedin.com/company/cactaeco/";
+						responseMessage = "Conéctate con nosotros en LinkedIn.";
+						break;
+					case "Enviar mi consulta":
+						link = "https://cacta.eco/#contact";
+						responseMessage =
+							"Estamos aquí para ayudarte, completa el formulario de consulta.";
+						break;
+					case "Más información":
+						responseMessage =
+							"Claro, ¿qué información adicional te gustaría saber?";
+						break;
+					default:
+						return "unknown_input";
+				}
+				await params.injectMessage(responseMessage);
+				setTimeout(() => {
+					if (link) window.open(link);
+				}, 1000);
+				return "repeat";
+			},
+		},
+		repeat: {
+			transition: { duration: 3000 },
+			path: "prompt_again",
 		},
 	};
+
 	return (
-		<section>
-			<ChatBot
-				id="chatbot"
-				settings={{
-					general: { embedded: false, initiallyOpen: false },
-					chatHistory: { storageKey: "example_complex_form" },
-				}}
-				flow={flow}
-			/>
-		</section>
+		<ChatBot
+			settings={{
+				general: { embedded: false },
+				initiallyOpen: false,
+				chatHistory: { storageKey: "example_faq_bot" },
+			}}
+			flow={flow}
+		/>
 	);
 }
 

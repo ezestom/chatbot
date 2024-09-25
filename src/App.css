@@ -1,9 +1,21 @@
+.rcb-chat-header-container {
+	display: flex;
+	justify-content: end;
+}
+
+.rcb-chat-header:nth-child(1) {
+	display: none;
+}
+.rcb-notification-icon-on {
+	display: none;
+}
 .rcb-chat-footer-container {
 	display: none;
 }
 .rcb-chat-tooltip {
 	display: none;
 }
-.rcb-chat-avatar, .rcb-bot-avatar {
+.rcb-chat-avatar,
+.rcb-bot-avatar {
 	display: none;
 }
