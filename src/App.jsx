@@ -10,6 +10,12 @@ function App() {
 		"Enviar mi consulta",
 		"Más información",
 	];
+	const styles = {
+		headerStyle: {
+			background: "#8e33ff",
+			color: "#ffffff",
+		},
+	};
 
 	const flow = {
 		start: {
@@ -88,15 +94,24 @@ function App() {
 	};
 
 	return (
-		<ChatBot
-			settings={{
-				general: { embedded: false },
-				initiallyOpen: false,
-				chatHistory: { storageKey: "example_faq_bot" },
-				botBubble: { simStream: true },
-			}}
-			flow={flow}
-		/>
+		<div
+			style={{
+				zIndex: 1000,
+				position: "fixed",
+				bottom: 0,
+				right: 0,
+			}}>
+			<ChatBot
+				settings={{
+					general: { embedded: false },
+					initiallyOpen: false,
+					chatHistory: { storageKey: "example_faq_bot" },
+					botBubble: { simStream: true },
+				}}
+				flow={flow}
+				styles={styles}
+			/>
+		</div>
 	);
 }
 
